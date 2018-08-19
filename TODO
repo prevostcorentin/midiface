@@ -1,1 +1,2 @@
-Ne plus stocker mthd dans Midifile, comparer directement lors de l'ouverture du fichier
+[X] Validate `mthd` (08-19-2018)
+[X] Clean filetree (08-19-2018)
