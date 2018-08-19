@@ -1,0 +1,1 @@
+Ne plus stocker mthd dans Midifile, comparer directement lors de l'ouverture du fichier

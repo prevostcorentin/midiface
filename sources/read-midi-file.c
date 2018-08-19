@@ -10,7 +10,6 @@ typedef enum {false=0, true=1} bool;
 typedef unsigned char byte;
 
 typedef struct {
-   byte mthd[4];
    int header_length;
    int format;
    int tracks_number;
@@ -22,7 +21,7 @@ typedef struct {
 int readint(FILE *fptr, int size);
 
 int midifile_open(Midifile*, const char *filename);
-bool midifile_check_mthd(Midifile*);
+bool midifile_validate_mthd(byte bytes[4]);
 // void midifile_check_mtrk(Midifile*);
 void midifile_dump_header(Midifile*);
 void midifile_close(Midifile*);
@@ -56,15 +55,16 @@ int main(int argc, char **argv)
 
 int midifile_open(Midifile *midifile, const char *filename)
 {
+   FILE *fptr;
+   byte mthd[4];
    if(midifile == NULL) {
       midifile = malloc(sizeof(Midifile));
    }
-   FILE *fptr;
    if((fptr = fopen(filename, "r")) == NULL) {
       return FILE_NOT_FOUND;
    }
-   fread(midifile->mthd, 4, 1, fptr);
-   if(!(midifile_check_mthd(midifile))) {
+   fread(mthd, 4, 1, fptr);
+   if(!(midifile_validate_mthd(mthd))) {
       return NOT_MIDIFILE;
    }
    midifile->header_length = readint(fptr, 4);
@@ -81,20 +81,12 @@ bool midifile_check_mtrk(Midifile *midifile)
 }
 */
 
-bool _midifile_compare_header(byte bytes[4], const char *header_string)
-{
-   int i;
-   for(i=0; i < 4; i++) {
-      if(bytes[i] != header_string[i]) {
-         return false;
-      }
-   }
-   return true;
-}
 
-bool midifile_check_mthd(Midifile *midifile)
+bool midifile_validate_mthd(byte bytes[4])
 {
-   return _midifile_compare_header(midifile->mthd, "MThd");
+   static const unsigned char mthd[]={ 0x4d, 0x54, 0x68, 0x64 };
+   return memcmp(bytes, mthd, sizeof mthd) == 0;
+
 }
 
 void midifile_dump_header(Midifile *midifile)
