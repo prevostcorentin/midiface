@@ -1,26 +1,33 @@
 CC=gcc
 CC_FLAGS=-Wall
 DEFINES=-DDEBUG
-LIB_OBJS=$(subst sources/, obj/, $(patsubst %.c, %.o, $(wildcard sources/*.c)))
-EXAMPLES_OBJS=$(subst sources/, obj/, $(patsubst %.c, %.o, $(wildcard examples/sources/*.c)))
 
-static-lib: lib obj lib/midilib.a
+#.SILENT:
 
-lib:
-	mkdir lib
 
-obj:
-	mkdir obj
+windows: static-lib lib/libmidi.dll examples
 
-lib/midilib.a: $(LIB_OBJS)
-	ar rvs -o $@ $<
+
+static-lib: $(patsubst sources/%.c, obj/%.o, $(wildcard sources/*.c)) lib/libmidi.a
 
 obj/%.o: sources/%.c
-	$(CC) -c $(CC_FLAGS) $(DEFINES) -g $< -o $@ -I.
+	$(CC) -c $(CC_FLAGS) -g $< -o $@ -I.
 
-debug:
-	echo $(LIB_OBJS)
+lib/libmidi.a:
+	ar rvs -o $@ $(wildcard obj/*.o)
+
+lib/libmidi.dll:
+	$(CC) -DWINDOWS -shared -o lib/libmidi.dll $(wildcard obj/*.o) -Wl,--out-implib,lib/libmidi.a
+
+
+examples: $(patsubst examples/sources/%.c, examples/bin/%.exe, $(wildcard examples/sources/*.c))
+
+examples/bin/%.exe: examples/sources/%.c
+	$(CC) $(CC_FLAGS) -g $< $(wildcard obj/*.o) -o $@ -I. -Llib -lmidi
+
+
 
 clean:
-	del *.exe
-	rmdir obj
+	del obj\*.o
+	del lib\*.a
+	del examples\bin\*.exe

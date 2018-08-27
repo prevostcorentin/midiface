@@ -6,7 +6,7 @@
 #include <string.h>
 
 
-int midifile_open(Midifile *midifile, const char *filename)
+int __stdcall midifile_open(Midifile *midifile, const char *filename)
 {
    FILE *fptr;
    byte_t mthd[4];
@@ -42,7 +42,7 @@ bool midifile_validate_mthd(byte_t bytes[4])
 
 }
 
-void midifile_dump_header(Midifile *midifile)
+void __stdcall midifile_dump_header(Midifile *midifile)
 {
    printf("format: %d\n"
           "number of tracks: %d\n"
@@ -52,7 +52,7 @@ void midifile_dump_header(Midifile *midifile)
           midifile->division);
 }
 
-void midifile_close(Midifile *midifile)
+void __stdcall midifile_close(Midifile *midifile)
 {
    /*
    if(midifile->tracks != NULL) {

@@ -1,2 +1,5 @@
 resources/
 *.exe
+obj/*.o
+lib/*.a
+lib/*.dll

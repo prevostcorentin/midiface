@@ -13,7 +13,8 @@ typedef struct {
 	int division;
 } Midifile;
 
-int midifile_open(Midifile *midifile, const char *filename);
+
+int __stdcall __declspec(dllexport) midifile_open(Midifile *midifile, const char *filename);
+void __stdcall __declspec(dllexport) midifile_dump_header(Midifile *midifile);
+void __stdcall __declspec(dllexport) midifile_close(Midifile *midifile);
 bool midifile_validate_mthd(byte_t bytes[4]);
-void midifile_dump_header(Midifile *midifile);
-void midifile_close(Midifile *midifile);
