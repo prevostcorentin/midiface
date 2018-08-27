@@ -6,25 +6,23 @@
 #include <string.h>
 
 
-int __stdcall midifile_open(Midifile *midifile, const char *filename)
+Midifile* __stdcall midifile_open(const char *filename)
 {
    FILE *fptr;
    byte_t mthd[4];
-   if(midifile == NULL) {
-      midifile = malloc(sizeof(Midifile));
-   }
+   Midifile *midifile = malloc(sizeof(Midifile));
    if((fptr = fopen(filename, "r")) == NULL) {
-      return FILE_NOT_FOUND;
+      midifile_add_error(FILE_NOT_FOUND);
    }
    fread(mthd, 4, 1, fptr);
    if(!(midifile_validate_mthd(mthd))) {
-      return WRONG_MTHD;
+      midifile_add_error(WRONG_MTHD);
    }
    midifile->header_length = readint(fptr, 4);
    midifile->format = readint(fptr, 2);
    midifile->track_chunks_number = readint(fptr, 2);
    midifile->division = readint(fptr, 2);
-   return MIDIFILE_OK;
+   return midifile;
 }
 
 /*
