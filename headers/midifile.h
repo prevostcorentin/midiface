@@ -1,7 +1,6 @@
 #include "types.h"
 #include "errutils.h"
 
-
 typedef struct {
 	int format;
 	int header_length;
