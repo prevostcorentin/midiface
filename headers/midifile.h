@@ -2,7 +2,6 @@
 #include "errutils.h"
 
 
-
 typedef struct {
 	int format;
 	int header_length;
@@ -10,8 +9,7 @@ typedef struct {
 	int division;
 } Midifile;
 
-
-Midifile* __stdcall __declspec(dllexport) midifile_open(const char *filename);
-void __stdcall __declspec(dllexport) midifile_dump_header(Midifile *midifile);
-void __stdcall __declspec(dllexport) midifile_close(Midifile *midifile);
-bool midifile_validate_mthd(byte_t bytes[4]);
+Midifile* midiface_open_file(const char *filename);
+void midiface_dump_midifile_header(Midifile *midifile);
+void midiface_close_midifile(Midifile *midifile);
+bool midiface_validate_header(byte_t *bytes);

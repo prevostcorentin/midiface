@@ -5,8 +5,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-
-Midifile* __stdcall midifile_open(const char *filename)
+Midifile* midiface_open_file(const char *filename)
 {
    FILE *fptr;
    byte_t mthd[4];
@@ -15,7 +14,7 @@ Midifile* __stdcall midifile_open(const char *filename)
       midifile_add_error(FILE_NOT_FOUND);
    }
    fread(mthd, 4, 1, fptr);
-   if(!(midifile_validate_mthd(mthd))) {
+   if(!(midiface_validate_header(mthd))) {
       midifile_add_error(WRONG_MTHD);
    }
    midifile->header_length = readint(fptr, 4);
@@ -33,14 +32,13 @@ bool midifile_check_mtrk(Midifile *midifile)
 */
 
 
-bool midifile_validate_mthd(byte_t bytes[4])
+bool midiface_validate_header(byte_t *bytes)
 {
    static const unsigned char mthd[]={ 0x4d, 0x54, 0x68, 0x64 };
    return memcmp(bytes, mthd, sizeof mthd) == 0;
-
 }
 
-void __stdcall midifile_dump_header(Midifile *midifile)
+void midiface_dump_midifile_header(Midifile *midifile)
 {
    printf("format: %d\n"
           "number of tracks: %d\n"
@@ -50,7 +48,7 @@ void __stdcall midifile_dump_header(Midifile *midifile)
           midifile->division);
 }
 
-void __stdcall midifile_close(Midifile *midifile)
+void midiface_close_midifile(Midifile *midifile)
 {
    /*
    if(midifile->tracks != NULL) {

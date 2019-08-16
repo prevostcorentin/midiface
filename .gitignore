@@ -3,3 +3,5 @@ resources/
 obj/*.o
 lib/*.a
 lib/*.dll
+.idea
+cmake-build-debug/
