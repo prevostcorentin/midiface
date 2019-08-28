@@ -1,5 +1,4 @@
 #include <headers/errutils.h>
-#include <stdio.h>
 
 
 int midifile_errors[MAX_ERRORS]={MIDIFILE_OK};
