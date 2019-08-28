@@ -3,19 +3,23 @@ project (midiface VERSION 0.0.1 DESCRIPTION "Midi interface")
 
 set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
 
-add_library (midiface SHARED
-             sources/errutils.c
-             sources/memutils.c
-             sources/midifile.c)
+add_library(midiface SHARED sources/errutils.c
+        sources/memutils.c
+        sources/midifile.c)
 
 set_target_properties (midiface PROPERTIES VERSION ${PROJECT_VERSION})
 set_target_properties (midiface PROPERTIES SOVERSION 1)
 set_target_properties (midiface PROPERTIES PUBLIC_HEADER include/midiface.h)
-target_include_directories (midiface PRIVATE .)
+target_include_directories(midiface PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
 
-add_executable (dump-midi-file examples/sources/dump-midi-file.c)
-target_link_libraries (dump-midi-file midiface)
-target_include_directories (dump-midi-file PRIVATE .)
+add_executable(midiface-tests tests/sources/tests.c)
+target_link_libraries(midiface-tests ${CMAKE_CURRENT_SOURCE_DIR}/tests/lib/lib/libcunit.a
+        midiface)
+add_custom_command(TARGET midiface-tests PRE_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_directory
+        ${CMAKE_CURRENT_SOURCE_DIR}/tests/files $<TARGET_FILE_DIR:midiface-tests>/tests/files)
+target_include_directories(midiface-tests PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}
+        tests/lib/include)
 
 include (GNUInstallDirs)
 

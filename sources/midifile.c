@@ -12,6 +12,7 @@ Midifile *midiface_open_file(const char *filename) {
     Midifile *midifile = malloc(sizeof(Midifile));
     if ((fptr = fopen(filename, "r")) == NULL) {
         midifile_add_error(FILE_NOT_FOUND);
+        return NULL;
     }
     fread(mthd, 4, 1, fptr);
     if (!(midiface_validate_header(mthd))) {
@@ -29,7 +30,7 @@ bool midiface_validate_header(byte_t *bytes) {
     return memcmp(bytes, mthd, sizeof mthd) == 0;
 }
 
-void midiface_dump_midifile_header(Midifile *midifile) {
+void midiface_dump_midifile_header(const Midifile *midifile) {
     printf("format: %s (%d)\n"
            "number of tracks: %d\n"
            "division: %d\n",
