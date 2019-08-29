@@ -69,13 +69,13 @@ void read_int_quarter_byte_test() {
 
 void read_int_eleven_bit_on_test() {
     void *data = malloc(sizeof(int));
-    const short unsigned int source_integer = 0b0000010000000000; // 1024
+    const short unsigned int source_integer = 0b0000000000000100; // 1024
     memcpy(data, &source_integer, 2);
     const FILE *stream = fmemopen(data, 2, "rb");
 
     const unsigned int read_integer = read_unsigned_integer(stream, 2);
 
-    CU_ASSERT_EQUAL(read_integer, source_integer);
+    CU_ASSERT_EQUAL(read_integer, 1024);
 }
 
 void init_memutils_suite() {

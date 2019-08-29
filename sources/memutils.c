@@ -7,9 +7,14 @@ unsigned int read_unsigned_integer(const FILE *file_descriptor, const size_t rea
     unsigned int value = 0;
 
     fread(bytes, read_size, 1, file_descriptor);
-    for (unsigned int power = 0; power < read_size; power++) {
-        value = value + (bytes[power] << (power * 8));
-   }
+    // The most significant byte is the first so the most higher
+    // power is at the beginning of the start of the file cursor when
+    // reading n bytes.
+    unsigned int power = 0;
+    for (int i = (int) (read_size) - 1; i >= 0; i--) {
+        value = value + (bytes[i] << (power * 8));
+        power = power + 1;
+    }
 
    return value;
 }
