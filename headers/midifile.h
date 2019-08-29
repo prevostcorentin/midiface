@@ -2,10 +2,10 @@
 #include "errutils.h"
 
 typedef struct {
-	int format;
-	int header_length;
-	int track_chunks_number;
-	int division;
+    unsigned int format;
+    unsigned int header_length;
+    unsigned int track_chunks_number;
+    unsigned int division;
 } Midifile;
 
 Midifile* midiface_open_file(const char *filename);

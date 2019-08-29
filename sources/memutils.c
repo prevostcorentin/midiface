@@ -2,14 +2,13 @@
 #include <headers/types.h>
 
 
-int readint(FILE *fptr, int size)
-{
-   byte_t bytes[size];
-   int value=0;
+unsigned int read_unsigned_integer(const FILE *file_descriptor, const size_t read_size) {
+    byte_t bytes[read_size];
+    unsigned int value = 0;
 
-   fread(bytes, size, 1, fptr);
-   for(int i=0; i < size; i++) {
-      value = value << 1 | bytes[i];
+    fread(bytes, read_size, 1, file_descriptor);
+    for (unsigned int power = 0; power < read_size; power++) {
+        value = value + (bytes[power] << (power * 8));
    }
 
    return value;
