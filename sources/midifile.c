@@ -18,10 +18,10 @@ Midifile *midiface_open_file(const char *filename) {
     if (!(midiface_validate_header(mthd))) {
         midifile_add_error(WRONG_MTHD);
     }
-    midifile->header_length = readint(fptr, 4);
-    midifile->format = readint(fptr, 2);
-    midifile->track_chunks_number = readint(fptr, 2);
-    midifile->division = readint(fptr, 2);
+    midifile->header_length = read_unsigned_integer(fptr, 4);
+    midifile->format = read_unsigned_integer(fptr, 2);
+    midifile->track_chunks_number = read_unsigned_integer(fptr, 2);
+    midifile->division = read_unsigned_integer(fptr, 2);
     return midifile;
 }
 
