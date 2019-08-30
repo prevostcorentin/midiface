@@ -11,12 +11,11 @@ Midifile *midiface_open_file(const char *filename) {
     byte_t mthd[4];
     Midifile *midifile = malloc(sizeof(Midifile));
     if ((fptr = fopen(filename, "r")) == NULL) {
-        midifile_add_error(FILE_NOT_FOUND);
-        return NULL;
+        midifile_throw_error(FILE_NOT_FOUND);
     }
     fread(mthd, 4, 1, fptr);
     if (!(midiface_validate_header(mthd))) {
-        midifile_add_error(WRONG_MTHD);
+        midifile_throw_error(WRONG_MTHD);
     }
     midifile->header_length = read_unsigned_integer(fptr, 4);
     midifile->format = read_unsigned_integer(fptr, 2);
