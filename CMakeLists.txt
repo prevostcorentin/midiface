@@ -5,7 +5,8 @@ set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
 
 add_library(midiface SHARED sources/errutils.c
         sources/memutils.c
-        sources/midifile.c)
+        sources/midifile.c
+        sources/logger.c)
 
 set_target_properties (midiface PROPERTIES VERSION ${PROJECT_VERSION})
 set_target_properties (midiface PROPERTIES SOVERSION 1)

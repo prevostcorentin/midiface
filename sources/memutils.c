@@ -8,8 +8,8 @@ unsigned int read_unsigned_integer(const FILE *file_descriptor, const size_t rea
 
     fread(bytes, read_size, 1, file_descriptor);
     // The most significant byte is the first so the most higher
-    // power is at the beginning of the start of the file cursor when
-    // reading n bytes.
+    // power is at the beginning of the file cursor when
+    // reading.
     unsigned int power = 0;
     for (int i = (int) (read_size) - 1; i >= 0; i--) {
         value = value + (bytes[i] << (power * 8));
