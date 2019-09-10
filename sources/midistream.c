@@ -1,3 +1,4 @@
+#include <headers/memutils.h>
 #include <headers/midifile.h>
 #include <headers/midistream.h>
 #include <headers/midispec.h>
@@ -29,21 +30,21 @@ void midiface_open_stream_source(MIDIStream *stream, const char *source_name) {
         stream->source = midiface_open_file(source_name);
     } else if (stream->type == CONTINUOUS) {
         send_log(ERROR, "Continuous stream source opening not implemented");
-        midifile_throw_error(NOT_IMPLEMENTED);
+        midiface_throw_error(NOT_IMPLEMENTED);
     } else if (stream->type == LISTENING) {
         send_log(ERROR, "Listening stream source opening not implemented");
-        midifile_throw_error(NOT_IMPLEMENTED);
+        midiface_throw_error(NOT_IMPLEMENTED);
     }
 }
 
-int midiface_get_stream_length(const MIDIStream *stream) {
+int midiface_get_stream_length(MIDIStream *stream) {
     size_t source_size = -1;
     if (stream->type == IMMUTABLE) {
-        MIDIFile *midifile = (MIDIFile *) stream->source;
+        MIDIFile *midifile = (MIDIFile *) midiface_get_stream_source(stream);
         const size_t initial_position = ftell(midifile->file);
-        fseek(midifile->file, 0, SEEK_END);
+        secure_fseek(midifile->file, 0, SEEK_END);
         source_size = ftell(midifile->file);
-        fseek(midifile->file, initial_position, SEEK_SET);
+        secure_fseek(midifile->file, initial_position, SEEK_SET);
     } else if (stream->type == CONTINUOUS || stream->type == LISTENING) {
         // CONTINUOUS and LISTENING have infinite length because it sends at any time any data
         // A size should be calculated after it has been closed.
@@ -72,14 +73,33 @@ void midiface_dump_stream_header(MIDIStream *stream) {
 MIDIHeader *midiface_get_stream_header(MIDIStream *stream) {
     MIDIHeader *header = NULL;
     if (stream->type == IMMUTABLE) {
-        MIDIFile *source = (MIDIFile *) stream->source;
+        MIDIFile *source = (MIDIFile *) midiface_get_stream_source(stream);
+        if (source->header == NULL) {
+            midiface_throw_error(NO_SOURCE_HEADER);
+        }
         header = source->header;
     } else if (stream->type == CONTINUOUS) {
         send_log(ERROR, "Continuous stream header getting not implemented");
-        midifile_throw_error(NOT_IMPLEMENTED);
+        midiface_throw_error(NOT_IMPLEMENTED);
     } else if (stream->type == LISTENING) {
         send_log(ERROR, "Listening stream header getting not implemented");
-        midifile_throw_error(NOT_IMPLEMENTED);
+        midiface_throw_error(NOT_IMPLEMENTED);
     }
     return header;
+}
+
+void *midiface_get_stream_source(MIDIStream *stream) {
+    if (stream->type == IMMUTABLE) {
+        MIDIFile *source = (MIDIFile *) stream->source;
+        if (source == NULL) {
+            midiface_throw_error(NO_SOURCE);
+        }
+        return source;
+    } else if (stream->type == CONTINUOUS) {
+        send_log(ERROR, "Continuous stream header getting not implemented");
+        midiface_throw_error(NOT_IMPLEMENTED);
+    } else if (stream->type == LISTENING) {
+        send_log(ERROR, "Listening stream header getting not implemented");
+        midiface_throw_error(NOT_IMPLEMENTED);
+    }
 }
