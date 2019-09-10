@@ -10,7 +10,7 @@ unsigned int midifile_errors[MAX_ERRORS] = {MIDIFILE_OK};
 int err_count=0;
 
 
-unsigned int midifile_get_last_error() {
+unsigned int midiface_pop_last_error() {
     const unsigned int error = midifile_errors[0];
     for (int i = 0; i < err_count; i++) {
       midifile_errors[i] = midifile_errors[i + 1];
@@ -21,30 +21,41 @@ unsigned int midifile_get_last_error() {
     return error;
 }
 
-char *midifile_get_last_error_string(const unsigned int code) {
+char *_get_last_error_string(const unsigned int code) {
     char *error_string = malloc(512 * sizeof(char));
-    if (code == FILE_NOT_FOUND) {
-        send_log(ERROR, "%s - %s", "Can not open file", strerror(errno));
+    if (code == FILE_OPENING) {
+        sprintf(error_string, "%s - %s", "Can not open file", strerror(errno));
     } else if (code == WRONG_MTHD) {
-        send_log(ERROR, "Wrong track header type (probably not a MIDI file format)");
+        sprintf(error_string, "%s", "Wrong track header type (probably not a MIDI file format)");
+    } else if (code == READ_EXCEPTION) {
+        sprintf(error_string, "Unable to read from file - %s", strerror(errno));
+    } else if (code == NOT_IMPLEMENTED) {
+        sprintf(error_string, "Not implemented yet");
+    } else if (code == NO_SOURCE) {
+        sprintf(error_string, "Source is NULL");
+    } else if (code == NO_SOURCE_HEADER) {
+        sprintf(error_string, "Source does not carry a header");
     } else {
-        send_log(ERROR, "Unknown error - %s", strerror(errno));
+        sprintf(error_string, "Unknown error - %s", strerror(errno));
     }
     return error_string;
 }
 
-void midifile_add_error(const unsigned int code) {
+void _add_error(const unsigned int code) {
    midifile_errors[err_count] = code;
    err_count = err_count + 1;
 }
 
-void midifile_throw_error(const unsigned int code) {
-    midifile_add_error(code);
-    const char *error_string = midifile_get_last_error_string(code);
+void midiface_throw_error(const unsigned int code) {
+    _add_error(code);
+    char *error_string = _get_last_error_string(code);
     const static unsigned int fatal_code = FATAL;
     if (code & fatal_code) {
-        fprintf(stdout, "%s: %s", FATAL_STRING_HEADER, error_string);
+        send_log(ERROR, "%s: %s", FATAL_STRING_HEADER, error_string);
+        free(error_string);
         exit(EXIT_FAILURE);
+    } else {
+        send_log(ERROR, "%s: %s", ERROR_STRING_HEADER, error_string);
+        free(error_string);
     }
-    fprintf(stdout, "%s: %s", ERROR_STRING_HEADER, error_string);
 }

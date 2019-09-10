@@ -6,7 +6,7 @@ void read_int_4_bytes_test() {
     void *data = malloc(sizeof(int));
     const unsigned int source_integer = 0b11111111111111111111111111111111; // 4294967295
     memcpy(data, &source_integer, 4);
-    const FILE *stream = fmemopen(data, 4, "rb");
+    FILE *stream = fmemopen(data, 4, "rb");
 
     const unsigned int read_integer = read_unsigned_integer(stream, 4);
 
@@ -17,7 +17,7 @@ void read_int_3_bytes_test() {
     void *data = malloc(sizeof(int));
     const unsigned int source_integer = 0b111111111111111111111111; // 16777215
     memcpy(data, &source_integer, 3);
-    const FILE *stream = fmemopen(data, 3, "rb");
+    FILE *stream = fmemopen(data, 3, "rb");
 
     const unsigned int read_integer = read_unsigned_integer(stream, 3);
 
@@ -28,7 +28,7 @@ void read_int_2_bytes_test() {
     void *data = malloc(sizeof(int));
     const short unsigned int source_integer = 0b1111111111111111; // 65535
     memcpy(data, &source_integer, 2);
-    const FILE *stream = fmemopen(data, 2, "rb");
+    FILE *stream = fmemopen(data, 2, "rb");
 
     const unsigned int read_integer = read_unsigned_integer(stream, 2);
 
@@ -39,7 +39,7 @@ void read_int_1_byte_test() {
     void *data = malloc(sizeof(int));
     const short unsigned int source_integer = 0b000000011111111; // 127
     memcpy(data, &source_integer, 1);
-    const FILE *stream = fmemopen(data, 1, "rb");
+    FILE *stream = fmemopen(data, 1, "rb");
 
     const unsigned int read_integer = read_unsigned_integer(stream, 1);
 
@@ -50,7 +50,7 @@ void read_int_half_byte_test() {
     void *data = malloc(sizeof(int));
     const short unsigned int source_integer = 0b000000000001111; // 15
     memcpy(data, &source_integer, 1);
-    const FILE *stream = fmemopen(data, 1, "rb");
+    FILE *stream = fmemopen(data, 1, "rb");
 
     const unsigned int read_integer = read_unsigned_integer(stream, 1);
 
@@ -61,7 +61,7 @@ void read_int_quarter_byte_test() {
     void *data = malloc(sizeof(int));
     const short unsigned int source_integer = 0b0000000000000011; // 3
     memcpy(data, &source_integer, 1);
-    const FILE *stream = fmemopen(data, 1, "rb");
+    FILE *stream = fmemopen(data, 1, "rb");
 
     const unsigned int read_integer = read_unsigned_integer(stream, 1);
     CU_ASSERT_EQUAL(read_integer, source_integer);
@@ -71,7 +71,7 @@ void read_int_eleven_bit_on_test() {
     void *data = malloc(sizeof(int));
     const short unsigned int source_integer = 0b0000000000000100; // 1024
     memcpy(data, &source_integer, 2);
-    const FILE *stream = fmemopen(data, 2, "rb");
+    FILE *stream = fmemopen(data, 2, "rb");
 
     const unsigned int read_integer = read_unsigned_integer(stream, 2);
 
