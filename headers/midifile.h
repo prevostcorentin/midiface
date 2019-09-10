@@ -1,15 +1,17 @@
 #include "types.h"
 #include "errutils.h"
+#include "midiheader.h"
+
+#include <stdio.h>
 
 typedef struct {
-    unsigned int format;
-    unsigned int header_length;
-    unsigned int track_chunks_number;
-    unsigned int division;
-} Midifile;
+    MIDIHeader *header;
+    FILE *file;
+} MIDIFile;
 
-Midifile* midiface_open_file(const char *filename);
+MIDIFile *midiface_open_file(const char *filename);
 
-void midiface_dump_midifile_header(const Midifile *midifile);
-void midiface_close_midifile(Midifile *midifile);
+void midiface_dump_midifile_header(const MIDIFile *midifile);
+
+void midiface_close_midifile(MIDIFile *midifile);
 bool midiface_validate_header(byte_t *bytes);

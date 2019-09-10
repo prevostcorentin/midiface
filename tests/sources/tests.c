@@ -1,11 +1,13 @@
 #include <CUnit/Basic.h>
 #include "test_midifile.c"
+#include "test_midistream.c"
 #include "test_memutils.c"
 #include "test_logger.c"
 
 void init_test_suites() {
     init_memutils_suite();
     init_midifile_suite();
+    init_midistream_suite();
     init_logger_suite();
 }
 

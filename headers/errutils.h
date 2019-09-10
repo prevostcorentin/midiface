@@ -5,6 +5,7 @@
 #define MIDIFILE_OK 0x01
 #define WRONG_MTHD  (0x02 + FATAL)
 #define FILE_NOT_FOUND (0x03 + FATAL)
+#define NOT_IMPLEMENTED (0x04 + FATAL)
 
 #define MAX_ERRORS 256
 
