@@ -1,4 +1,6 @@
 #include <headers/errutils.h>
+#include <headers/logger.h>
+
 #include <errno.h>
 #include <string.h>
 #include <stdio.h>
@@ -22,11 +24,11 @@ unsigned int midifile_get_last_error() {
 char *midifile_get_last_error_string(const unsigned int code) {
     char *error_string = malloc(512 * sizeof(char));
     if (code == FILE_NOT_FOUND) {
-        sprintf(error_string, "%s - %s", "Can not open file", strerror(errno));
+        send_log(ERROR, "%s - %s", "Can not open file", strerror(errno));
     } else if (code == WRONG_MTHD) {
-        sprintf(error_string, "%s", "Wrong track header type (probably not a MIDI file format)");
+        send_log(ERROR, "Wrong track header type (probably not a MIDI file format)");
     } else {
-        sprintf(error_string, "Unknown error - %s", strerror(errno));
+        send_log(ERROR, "Unknown error - %s", strerror(errno));
     }
     return error_string;
 }
