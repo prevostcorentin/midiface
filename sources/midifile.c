@@ -1,6 +1,5 @@
 #include <headers/midifile.h>
 #include <headers/memutils.h>
-#include <headers/midispec.h>
 #include <headers/logger.h>
 
 #include <stdio.h>
@@ -24,6 +23,7 @@ MIDIFile *midiface_open_file(const char *filename) {
     midifile->header->format = read_unsigned_integer(fptr, 2);
     midifile->header->ntracks = read_unsigned_integer(fptr, 2);
     midifile->header->division = read_unsigned_integer(fptr, 2);
+    send_log(DEBUG, "MIDIFile@%p created with file@%p", midifile, midifile->file);
     return midifile;
 }
 
@@ -38,6 +38,7 @@ void midiface_close_midifile(MIDIFile *midifile) {
        free(midifile->tracks);
     }
     */
-    send_log(DEBUG, "freeing MIDIFile@%p", midifile);
+    send_log(DEBUG, "freeing MIDIFile@%p with file@%p", midifile, midifile->file);
+    fclose(midifile->file);
     free(midifile);
 }
