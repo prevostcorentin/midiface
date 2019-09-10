@@ -1,11 +1,11 @@
 #include <headers/midifile.h>
 
 void midi_file_valid_header_test() {
-    const Midifile *valid_MIDIFile = midiface_open_file("tests/files/SuperMario64.mid");
-    CU_ASSERT_EQUAL(valid_MIDIFile->header_length, 6);
-    CU_ASSERT_EQUAL(valid_MIDIFile->format, 1);
-    CU_ASSERT_EQUAL(valid_MIDIFile->track_chunks_number, 3);
-    CU_ASSERT_EQUAL(valid_MIDIFile->division, 1024);
+    const MIDIFile *valid_MIDIFile = midiface_open_file("tests/files/SuperMario64.mid");
+    CU_ASSERT_EQUAL(valid_MIDIFile->header->length, 6);
+    CU_ASSERT_EQUAL(valid_MIDIFile->header->format, 1);
+    CU_ASSERT_EQUAL(valid_MIDIFile->header->ntracks, 3);
+    CU_ASSERT_EQUAL(valid_MIDIFile->header->division, 1024);
 }
 
 void init_midifile_suite() {
