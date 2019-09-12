@@ -13,7 +13,7 @@ LogStream *log_streams[MAX_LOG_STREAMS_COUNT] = {NULL};
 unsigned int log_streams_count = 0;
 
 void add_log_output(FILE *output, enum LogLevel log_level) {
-    LogStream *log_stream = malloc(sizeof(log_stream));
+    LogStream *log_stream = malloc(sizeof(LogStream));
     log_stream->log_level = log_level;
     log_stream->output = output;
     log_streams[log_streams_count] = log_stream;
