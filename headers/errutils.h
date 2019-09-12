@@ -12,8 +12,8 @@
 
 #define MAX_ERRORS 256
 
-#define ERROR_STRING_HEADER "ERROR:"
-#define FATAL_STRING_HEADER "FATAL ERROR:"
+#define ERROR_STRING_HEADER "ERROR"
+#define FATAL_STRING_HEADER "FATAL ERROR"
 
 unsigned int midiface_pop_last_error();
 

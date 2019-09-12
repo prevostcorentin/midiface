@@ -1,6 +1,8 @@
 #include <headers/logger.h>
+
 #include <stdlib.h>
 #include <stdarg.h>
+#include <string.h>
 
 #define MAX_LOG_STREAMS_COUNT 8
 
@@ -21,7 +23,7 @@ void add_log_output(FILE *output, enum LogLevel log_level) {
 }
 
 char *add_prefix_newline(const enum LogLevel log_level, char *message_format) {
-    char *prefixed_log_message_format = malloc(sizeof(message_format) + sizeof(char) * 8);
+    char *prefixed_log_message_format = malloc(strlen(message_format) + sizeof(char) * 8);
     if (log_level == DEBUG) {
         sprintf(prefixed_log_message_format, "%s: %s\n", "DEBUG", message_format);
     } else if (log_level == ERROR) {
