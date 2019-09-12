@@ -24,9 +24,9 @@ unsigned int midiface_pop_last_error() {
 char *_get_last_error_string(const unsigned int code) {
     char *error_string = malloc(512 * sizeof(char));
     if (code == FILE_OPENING) {
-        sprintf(error_string, "%s - %s", "Can not open file", strerror(errno));
+        sprintf(error_string, "Can not open file - %s", strerror(errno));
     } else if (code == WRONG_MTHD) {
-        sprintf(error_string, "%s", "Wrong track header type (probably not a MIDI file format)");
+        sprintf(error_string, "Wrong header type (seems not to be a MIDI file format)");
     } else if (code == READ_EXCEPTION) {
         sprintf(error_string, "Unable to read from file - %s", strerror(errno));
     } else if (code == NOT_IMPLEMENTED) {
@@ -51,11 +51,11 @@ void midiface_throw_error(const unsigned int code) {
     char *error_string = _get_last_error_string(code);
     const static unsigned int fatal_code = FATAL;
     if (code & fatal_code) {
-        send_log(ERROR, "%s: %s", FATAL_STRING_HEADER, error_string);
+        send_log(ERROR, "[!] FATAL -> %s", error_string);
         free(error_string);
         exit(EXIT_FAILURE);
     } else {
-        send_log(ERROR, "%s: %s", ERROR_STRING_HEADER, error_string);
+        send_log(ERROR, "%s", error_string);
         free(error_string);
     }
 }
