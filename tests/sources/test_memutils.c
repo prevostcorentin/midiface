@@ -78,6 +78,19 @@ void read_int_eleven_bit_on_test() {
     CU_ASSERT_EQUAL(read_integer, 1024);
 }
 
+/**
+ * A MIDI chunk is 4 bytes.
+ */
+void read_chunk_test() {
+    char data[5] = {'t', 'e', 's', 't', '\0'};
+    char read_data[5] = {'\0'};
+    FILE *stream = fmemopen(data, 4, "rb");
+
+    read_chunk(stream, read_data);
+
+    CU_ASSERT_STRING_EQUAL(read_data, data);
+}
+
 void init_memutils_suite() {
     CU_pSuite memutils_test_suite = CU_add_suite("Test memory utils", NULL, NULL);
     CU_add_test(memutils_test_suite, "Test read integer of 32 bits",
@@ -94,4 +107,6 @@ void init_memutils_suite() {
                 read_int_half_byte_test);
     CU_add_test(memutils_test_suite, "Test read integer of 2 bits",
                 read_int_quarter_byte_test);
+    CU_add_test(memutils_test_suite, "Test chunk reading",
+                read_chunk_test);
 }

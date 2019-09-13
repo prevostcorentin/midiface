@@ -24,6 +24,7 @@ int main(int argc, char **argv) {
         if (argc == 2) {
             CU_basic_run_suite(test_suite);
         } else {
+            CU_pSuite chosen_tests_suite = CU_add_suite(test_suite->pName, NULL, NULL);
             for(int i=2; i < argc; i++) {
                 char* test_name = argv[i];
                 CU_pTest test_to_run = CU_get_test(test_suite, test_name);

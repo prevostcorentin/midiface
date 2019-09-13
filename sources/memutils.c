@@ -22,13 +22,15 @@ unsigned int read_unsigned_integer(FILE *file_descriptor, const size_t read_size
 }
 
 size_t secure_fread(char *buffer, const size_t size, const size_t n, FILE *file_descriptor) {
-    if (size * n != fread(buffer, size, n, file_descriptor)) {
+    size_t read_size = fread(buffer, size, n, file_descriptor);
+    if (size * n != read_size) {
         if (feof(file_descriptor)) {
             send_log(INFO, "End of stream@%p reached", file_descriptor);
         } else {
             midiface_throw_error(READ_EXCEPTION);
         }
     }
+    return read_size;
 }
 
 int secure_fseek(FILE *file_descriptor, size_t offset, int whence) {
@@ -37,4 +39,8 @@ int secure_fseek(FILE *file_descriptor, size_t offset, int whence) {
         midiface_throw_error(READ_EXCEPTION);
     }
     return result;
+}
+
+size_t read_chunk(FILE *file_descriptor, char *bytes) {
+    return secure_fread(bytes, 1, 4, file_descriptor);
 }

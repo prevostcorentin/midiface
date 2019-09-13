@@ -26,7 +26,9 @@ char *_get_last_error_string(const unsigned int code) {
     if (code == FILE_OPENING) {
         sprintf(error_string, "Can not open file - %s", strerror(errno));
     } else if (code == WRONG_MTHD) {
-        sprintf(error_string, "Wrong header type (seems not to be a MIDI file format)");
+        sprintf(error_string, "%s", "Wrong file type (probably not a MIDI file format)");
+    } else if (code == WRONG_MTRK) {
+        sprintf(error_string, "%s", "Wrong track type");
     } else if (code == READ_EXCEPTION) {
         sprintf(error_string, "Unable to read from file - %s", strerror(errno));
     } else if (code == NOT_IMPLEMENTED) {
