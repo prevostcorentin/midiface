@@ -7,6 +7,7 @@
 
 #include <malloc.h>
 #include <stdio.h>
+#include <string.h>
 
 #define \
     STREAM_TYPE_AS_STRING(STREAM_TYPE) \
@@ -24,7 +25,6 @@ MIDIStream *midiface_create_stream(const enum Stream_Type type) {
     return stream;
 }
 
-// Renaming because "source" is confusing
 void midiface_open_stream_source(MIDIStream *stream, const char *source_name) {
     if (stream->type == IMMUTABLE) {
         stream->source = midiface_open_file(source_name);
@@ -102,4 +102,58 @@ void *midiface_get_stream_source(MIDIStream *stream) {
         send_log(ERROR, "Listening stream header getting not implemented");
         midiface_throw_error(NOT_IMPLEMENTED);
     }
+}
+
+int midiface_validate_track_header(unsigned char bytes[4]) {
+    static const unsigned char mtrk[] = {'M', 'T', 'r', 'k'};
+    return memcmp(bytes, mtrk, sizeof mtrk) == 0;
+}
+
+MIDITrack *_get_next_track(FILE *file_descriptor) {
+    MIDITrack *track = NULL;
+    unsigned char mtrk[4];
+    read_chunk(file_descriptor, mtrk);
+    if (feof(file_descriptor)) {
+        return NULL;
+    }
+    if (!midiface_validate_track_header(mtrk)) {
+        midiface_throw_error(WRONG_MTRK);
+    } else {
+        track = malloc(sizeof(MIDITrack));
+        track->length = read_unsigned_integer(file_descriptor, 4);
+        track->events = NULL;
+        secure_fseek(file_descriptor, track->length, SEEK_CUR);
+    }
+    return track;
+}
+
+MIDITrack **midiface_get_stream_tracks(MIDIStream *midi_stream) {
+    if (midi_stream->type == IMMUTABLE) {
+        MIDIFile *source = (MIDIFile *) midiface_get_stream_source(midi_stream);
+        const unsigned int tracks_count = midiface_get_stream_tracks_count(midi_stream);
+        rewind(source->file);
+        secure_fseek(source->file, MIDIHEADER_LENGTH, SEEK_CUR);
+        MIDITrack **read_tracks = malloc(sizeof(void *) * tracks_count);
+        for (unsigned int i = 0; i < tracks_count; i++) {
+            read_tracks[i] = _get_next_track(source->file);
+        }
+        return read_tracks;
+    } else if (midi_stream->type == CONTINUOUS) {
+        send_log(ERROR, "Continuous stream header getting not implemented");
+        midiface_throw_error(NOT_IMPLEMENTED);
+    } else if (midi_stream->type == LISTENING) {
+        send_log(ERROR, "Listening stream header getting not implemented");
+        midiface_throw_error(NOT_IMPLEMENTED);
+    }
+}
+
+unsigned int midiface_get_stream_tracks_count(MIDIStream *midi_stream) {
+    MIDIFile *source = (MIDIFile *) midiface_get_stream_source(midi_stream);
+    rewind(source->file);
+    secure_fseek(source->file, MIDIHEADER_LENGTH, SEEK_CUR);
+    unsigned int tracks_count = 0;
+    while (NULL != _get_next_track(source->file)) {
+        tracks_count = tracks_count + 1;
+    }
+    return tracks_count;
 }

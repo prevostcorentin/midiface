@@ -10,8 +10,7 @@ typedef struct {
 } MIDIFile;
 
 MIDIFile *midiface_open_file(const char *filename);
-
 void midiface_dump_midifile_header(const MIDIFile *midifile);
-
 void midiface_close_midifile(MIDIFile *midifile);
-bool midiface_validate_header(byte_t *bytes);
+
+bool midiface_validate_header(char *bytes);
