@@ -41,10 +41,8 @@ int midiface_get_stream_length(MIDIStream *stream) {
     size_t source_size = -1;
     if (stream->type == IMMUTABLE) {
         MIDIFile *midifile = (MIDIFile *) midiface_get_stream_source(stream);
-        const size_t initial_position = ftell(midifile->file);
-        secure_fseek(midifile->file, 0, SEEK_END);
-        source_size = ftell(midifile->file);
-        secure_fseek(midifile->file, initial_position, SEEK_SET);
+        const size_t initial_position = seek_remind(midifile->file, 0, SEEK_END);
+        source_size = seek_remind(midifile->file, initial_position, SEEK_SET);
     } else if (stream->type == CONTINUOUS || stream->type == LISTENING) {
         // CONTINUOUS and LISTENING have infinite length because it sends at any time any data
         // A size should be calculated after it has been closed.

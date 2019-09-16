@@ -6,9 +6,17 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+bool errutils_global_quit_on_fatal = true;
 unsigned int midifile_errors[MAX_ERRORS] = {MIDIFILE_OK};
 int err_count=0;
 
+void midiface_turn_on_quit_on_fatal() {
+    errutils_global_quit_on_fatal = true;
+}
+
+void midiface_turn_off_quit_on_fatal() {
+    errutils_global_quit_on_fatal = false;
+}
 
 unsigned int midiface_pop_last_error() {
     const unsigned int error = midifile_errors[0];
@@ -52,7 +60,7 @@ void midiface_throw_error(const unsigned int code) {
     _add_error(code);
     char *error_string = _get_last_error_string(code);
     const static unsigned int fatal_code = FATAL;
-    if (code & fatal_code) {
+    if (errutils_global_quit_on_fatal && (code & fatal_code)) {
         send_log(ERROR, "[!] FATAL -> %s", error_string);
         free(error_string);
         exit(EXIT_FAILURE);
