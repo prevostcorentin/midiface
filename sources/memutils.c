@@ -44,3 +44,9 @@ int secure_fseek(FILE *file_descriptor, size_t offset, int whence) {
 size_t read_chunk(FILE *file_descriptor, char *bytes) {
     return secure_fread(bytes, 1, 4, file_descriptor);
 }
+
+size_t seek_remind(FILE *file_descriptor, int offset, int whence) {
+    size_t last_position = ftell(file_descriptor);
+    secure_fseek(file_descriptor, offset, whence);
+    return last_position;
+}

@@ -28,8 +28,10 @@ int main(int argc, char **argv) {
             for(int i=2; i < argc; i++) {
                 char* test_name = argv[i];
                 CU_pTest test_to_run = CU_get_test(test_suite, test_name);
-                CU_basic_run_test(test_suite, test_to_run);
+                CU_add_test(chosen_tests_suite, test_to_run->pName,
+                            test_to_run->pTestFunc);
             }
+            CU_basic_run_suite(chosen_tests_suite);
         }
     } else {
         CU_basic_run_tests();
