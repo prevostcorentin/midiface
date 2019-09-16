@@ -15,11 +15,13 @@ MIDIFile *midiface_create_file(FILE *file_descriptor) {
 
 MIDIFile *midiface_open_file(const char *filename) {
     FILE *file_descriptor;
+    MIDIFile *midi_file = NULL;
     if (NULL == (file_descriptor = fopen(filename, "rb"))) {
         midiface_throw_error(FILE_OPENING);
+    } else {
+        midi_file = midiface_create_file(file_descriptor);
+        send_log(DEBUG, "MIDIFile@%p created with file@%p", midi_file, midi_file->file);
     }
-    MIDIFile *midi_file = midiface_create_file(file_descriptor);
-    send_log(DEBUG, "MIDIFile@%p created with file@%p", midi_file, midi_file->file);
     return midi_file;
 }
 

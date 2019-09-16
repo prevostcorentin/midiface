@@ -4,6 +4,8 @@
 #include "test_memutils.c"
 #include "test_logger.c"
 
+#include <headers/errutils.h>
+
 void init_test_suites() {
     init_memutils_suite();
     init_midifile_suite();
@@ -18,6 +20,7 @@ int main(int argc, char **argv) {
     }
     init_test_suites();
     CU_basic_set_mode(CU_BRM_VERBOSE);
+    midiface_turn_off_quit_on_fatal();
     if (argc > 1) {
         const char* suite_name = argv[1];
         CU_pSuite test_suite = CU_get_suite(suite_name);
