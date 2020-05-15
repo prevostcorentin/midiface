@@ -4,11 +4,11 @@ project(midiface VERSION 0.0.1 DESCRIPTION "Virtual MIDI hub")
 set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
 
 add_library(midiface SHARED sources/errutils.c
-        sources/logger.c
-        sources/memutils.c
-        sources/midiheader.c
-        sources/midifile.c
-        sources/midistream.c)
+                            sources/logger.c
+                            sources/memutils.c
+                            sources/midiheader.c
+                            sources/midifile.c
+                            sources/midistream.c)
 
 set_target_properties (midiface PROPERTIES VERSION ${PROJECT_VERSION})
 set_target_properties (midiface PROPERTIES SOVERSION 1)
