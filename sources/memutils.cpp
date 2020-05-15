@@ -1,11 +1,19 @@
-#include <headers/errutils.h>
-#include <headers/logger.h>
-#include <headers/memutils.h>
-#include <headers/types.h>
+#ifdef CMAKE_BUILD
+    #include <headers/errutils.hpp>
+    #include <headers/logger.hpp>
+    #include <headers/memutils.hpp>
+    #include <headers/types.hpp>
+#else
+    #include "../headers/types.hpp"
+    #include "../headers/errutils.hpp"
+    #include "../headers/logger.hpp"
+    #include "../headers/memutils.hpp"
+#endif
 
+constexpr auto MAX_INTEGER_SIZE = 32;;
 
 unsigned int read_unsigned_integer(FILE *file_descriptor, const size_t read_size) {
-    byte_t bytes[read_size];
+    char bytes[MAX_INTEGER_SIZE];
     unsigned int value = 0;
 
     secure_fread(bytes, sizeof(char), read_size, file_descriptor);
@@ -25,7 +33,7 @@ size_t secure_fread(char *buffer, const size_t size, const size_t n, FILE *file_
     size_t read_size = fread(buffer, size, n, file_descriptor);
     if (size * n != read_size) {
         if (feof(file_descriptor)) {
-            send_log(INFO, "End of stream@%p reached", file_descriptor);
+            send_log(LogLevel::MF_INFO, (char*)"End of stream@%p reached", file_descriptor);
         } else {
             midiface_throw_error(READ_EXCEPTION);
         }

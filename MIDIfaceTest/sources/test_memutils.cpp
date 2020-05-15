@@ -1,6 +1,6 @@
 #include <malloc.h>
 
-#include <headers/memutils.h>
+#include "../../headers/memutils.h"
 
 void read_int_4_bytes_test() {
     void *data = malloc(sizeof(int));

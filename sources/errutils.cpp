@@ -1,10 +1,15 @@
-#include "../headers/errutils.h"
-#include <headers/logger.h>
+#ifdef CMAKE_BUILD
+    #include <headers/errutils.hpp>
+    #include <headers/logger.hpp>
+#else
+    #include "../headers/errutils.hpp"
+    #include "../headers/logger.hpp"
+#endif
 
-#include <errno.h>
-#include <string.h>
-#include <stdio.h>
-#include <stdlib.h>
+#include <cstring>
+#include <cerrno>
+#include <cstdio>
+#include <cstdlib>
 
 bool errutils_global_quit_on_fatal = true;
 unsigned int midifile_errors[MAX_ERRORS] = {MIDIFILE_OK};
@@ -30,23 +35,23 @@ unsigned int midiface_pop_last_error() {
 }
 
 char *_get_last_error_string(const unsigned int code) {
-    char *error_string = malloc(512 * sizeof(char));
+    char *error_string = (char*)malloc(512 * sizeof(char));
     if (code == FILE_OPENING) {
-        sprintf(error_string, "Can not open file - %s", strerror(errno));
+        sprintf_s(error_string, 64, "Can not open file");
     } else if (code == WRONG_MTHD) {
-        sprintf(error_string, "%s", "Wrong file type (probably not a MIDI file format)");
+        sprintf_s(error_string, 64, "%s", "Wrong file type (probably not a MIDI file format)");
     } else if (code == WRONG_MTRK) {
-        sprintf(error_string, "%s", "Wrong track type");
+        sprintf_s(error_string, 64, "%s", "Wrong track type");
     } else if (code == READ_EXCEPTION) {
-        sprintf(error_string, "Unable to read from file - %s", strerror(errno));
+        sprintf_s(error_string, 64, "Unable to read from file");
     } else if (code == NOT_IMPLEMENTED) {
-        sprintf(error_string, "Not implemented yet");
+        sprintf_s(error_string, 64, "Not implemented yet");
     } else if (code == NO_SOURCE) {
-        sprintf(error_string, "Source is NULL");
+        sprintf_s(error_string, 64, "Source is NULL");
     } else if (code == NO_SOURCE_HEADER) {
-        sprintf(error_string, "Source does not carry a header");
+        sprintf_s(error_string, 64, "Source does not carry a header");
     } else {
-        sprintf(error_string, "Unknown error - %s", strerror(errno));
+        sprintf_s(error_string, 64, "Unknown error");
     }
     return error_string;
 }
@@ -61,11 +66,11 @@ void midiface_throw_error(const unsigned int code) {
     char *error_string = _get_last_error_string(code);
     const static unsigned int fatal_code = FATAL;
     if (errutils_global_quit_on_fatal && (code & fatal_code)) {
-        send_log(ERROR, "[!] FATAL -> %s", error_string);
+        send_log(LogLevel::MF_ERROR, (char*)"[!] FATAL -> %s", error_string);
         free(error_string);
         exit(EXIT_FAILURE);
     } else {
-        send_log(ERROR, "%s", error_string);
+        send_log(LogLevel::MF_ERROR, (char*)"%s", error_string);
         free(error_string);
     }
 }

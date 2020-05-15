@@ -1,13 +1,19 @@
-#include <headers/midifile.h>
-#include <headers/memutils.h>
-#include <headers/logger.h>
+#ifdef CMAKE_BUILD
+    #include <headers/midifile.hpp>
+    #include <headers/memutils.hpp>
+    #include <headers/logger.hpp>
+#else
+    #include "../headers/midifile.hpp"
+    #include "../headers/memutils.hpp"
+    #include "../headers/logger.hpp"
+#endif
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
 MIDIFile *midiface_create_file(FILE *file_descriptor) {
-    MIDIFile *midi_file = malloc(sizeof(MIDIFile));
+    MIDIFile *midi_file = (MIDIFile*)malloc(sizeof(MIDIFile));
     midi_file->file = file_descriptor;
     midi_file->header = midiface_read_header(file_descriptor);
     return midi_file;
@@ -16,17 +22,18 @@ MIDIFile *midiface_create_file(FILE *file_descriptor) {
 MIDIFile *midiface_open_file(const char *filename) {
     FILE *file_descriptor;
     MIDIFile *midi_file = NULL;
-    if (NULL == (file_descriptor = fopen(filename, "rb"))) {
+    fopen_s(&file_descriptor, filename, "wb");
+    if (NULL == file_descriptor) {
         midiface_throw_error(FILE_OPENING);
     } else {
         midi_file = midiface_create_file(file_descriptor);
-        send_log(DEBUG, "MIDIFile@%p created with file@%p", midi_file, midi_file->file);
+        send_log(LogLevel::MF_DEBUG, (char*)"MIDIFile@%p created with file@%p", midi_file, midi_file->file);
     }
     return midi_file;
 }
 
 void midiface_close_midifile(MIDIFile *midifile) {
-    send_log(DEBUG, "freeing MIDIFile@%p with file@%p", midifile, midifile->file);
+    send_log(LogLevel::MF_DEBUG, (char*)"freeing MIDIFile@%p with file@%p", midifile, midifile->file);
     fclose(midifile->file);
     free(midifile->header);
     free(midifile);

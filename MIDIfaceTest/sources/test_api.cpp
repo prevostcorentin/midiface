@@ -1,8 +1,8 @@
 #ifndef MIDIFACE_TEST_API_GUARD
 #define MIDIFACE_TEST_API_GUARD
 
-#include <headers/midifile.h>
-#include <headers/midistream.h>
+#include "../../headers/midifile.h"
+#include "../../headers/midistream.h"
 
 #include <malloc.h>
 

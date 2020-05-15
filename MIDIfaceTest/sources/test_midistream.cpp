@@ -1,5 +1,5 @@
-#include <headers/midistream.h>
-#include <headers/miditrack.h>
+#include "../../headers/midistream.h"
+#include "../../headers/miditrack.h"
 
 #include <stdio.h>
 #include <malloc.h>

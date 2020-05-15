@@ -1,11 +1,12 @@
 #ifndef MIDIFACE_MIDIFILE_H
 #define MIDIFACE_MIDIFILE_H
 
-#include <headers/midiheader.h>
-#include <headers/types.h>
-#include <headers/errutils.h>
+#include "midiheader.hpp"
+#include "types.hpp"
+#include "errutils.hpp"
 
 #include <stdio.h>
+
 
 typedef struct {
     MIDIHeader *header;

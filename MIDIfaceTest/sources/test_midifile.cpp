@@ -1,5 +1,6 @@
-#include <headers/midifile.h>
-#include <headers/errutils.h>
+
+#include "../../headers/midifile.hpp"
+#include "../../headers/errutils.hpp"
 
 #include "fixtures.c"
 

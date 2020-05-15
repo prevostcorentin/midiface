@@ -1,7 +1,14 @@
-#include <headers/errutils.h>
-#include <headers/memutils.h>
-#include <headers/midiheader.h>
-#include <headers/types.h>
+#ifdef CMAKE_BUILD
+    #include <headers/errutils.hpp>
+    #include <headers/memutils.hpp>
+    #include <headers/midiheader.hpp>
+    #include <headers/types.hpp>
+#else
+    #include "../headers/errutils.hpp"
+    #include "../headers/memutils.hpp"
+    #include "../headers/midiheader.hpp"
+    #include "../headers/types.hpp"
+#endif
 
 #include <malloc.h>
 #include <string.h>
@@ -18,7 +25,7 @@ MIDIHeader *midiface_read_header(FILE *file_descriptor) {
     if (!_validate_mthd(mthd)) {
         midiface_throw_error(WRONG_MTHD);
     }
-    MIDIHeader *header = malloc(sizeof(MIDIHeader));
+    MIDIHeader *header = (MIDIHeader*)malloc(sizeof(MIDIHeader));
     header->length = read_unsigned_integer(file_descriptor, 4);
     header->format = read_unsigned_integer(file_descriptor, 2);
     header->ntracks = read_unsigned_integer(file_descriptor, 2);

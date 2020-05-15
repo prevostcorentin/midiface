@@ -1,4 +1,12 @@
-#include <CUnit/Basic.h>
+// pch.cpp : fichier source correspondant à l'en-tête précompilé
+
+#include "pch.hpp"
+
+// #include <CUnit/Basic.h>
+
+
+/* Tests must be rewritten to satisfy migration to Microsoft Unit Test Cpp Framework */
+/*
 #include "test_midifile.c"
 #include "test_midistream.c"
 #include "test_memutils.c"
@@ -13,7 +21,7 @@ void init_test_suites() {
     init_logger_suite();
 }
 
-int main(int argc, char **argv) {
+int main(int argc, char** argv) {
     CU_ErrorCode registry_initialization_error_code = CU_initialize_registry();
     if (CUE_SUCCESS != registry_initialization_error_code) {
         return CU_get_error();
@@ -26,18 +34,23 @@ int main(int argc, char **argv) {
         CU_pSuite test_suite = CU_get_suite(suite_name);
         if (argc == 2) {
             CU_basic_run_suite(test_suite);
-        } else {
+        }
+        else {
             CU_pSuite chosen_tests_suite = CU_add_suite(test_suite->pName, NULL, NULL);
-            for(int i=2; i < argc; i++) {
+            for (int i = 2; i < argc; i++) {
                 char* test_name = argv[i];
                 CU_pTest test_to_run = CU_get_test(test_suite, test_name);
                 CU_add_test(chosen_tests_suite, test_to_run->pName,
-                            test_to_run->pTestFunc);
+                    test_to_run->pTestFunc);
             }
             CU_basic_run_suite(chosen_tests_suite);
         }
-    } else {
+    }
+    else {
         CU_basic_run_tests();
     }
     return CU_get_error();
 }
+*/
+
+// Quand vous utilisez des en-têtes précompilés, ce fichier source est nécessaire pour la réussite de la compilation.

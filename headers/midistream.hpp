@@ -1,21 +1,21 @@
 #ifndef MIDIFACE_MIDISTREAM_H
 #define MIDIFACE_MIDISTREAM_H
 
-#include <headers/midiheader.h>
-#include <headers/miditrack.h>
+#include "midiheader.hpp"
+#include "miditrack.hpp"
 
 #include <stdio.h>
 
-enum Stream_Type {
+enum class StreamType {
     IMMUTABLE, CONTINUOUS, LISTENING
 };
 
 typedef struct {
-    enum Stream_Type type;
+    enum class StreamType type;
     void *source;
 } MIDIStream;
 
-MIDIStream *midiface_create_stream(enum Stream_Type);
+MIDIStream *midiface_create_stream(enum StreamType);
 void midiface_open_stream_source(MIDIStream *, const char *);
 void *midiface_get_stream_source(MIDIStream *);
 void midiface_dump_stream_header(MIDIStream *);
