@@ -1,11 +1,11 @@
 #ifndef MIDIFACE_TEST_API_GUARD
 #define MIDIFACE_TEST_API_GUARD
 
-#include "../../headers/midifile.h"
-#include "../../headers/midistream.h"
+#include "../../headers/midifile.hpp"
+#include "../../headers/midistream.hpp"
 
 #include <malloc.h>
-
+/*
 MIDIStream *create_in_memory_midistream(const enum Stream_Type type, char *raw_data, const size_t buffer_size) {
     if (type == IMMUTABLE) {
         MIDIStream *stream = midiface_create_stream(IMMUTABLE);
@@ -23,6 +23,6 @@ MIDIStream *create_in_memory_midistream(const enum Stream_Type type, char *raw_d
         midiface_throw_error(FATAL);
     }
 }
-
+*/
 #endif
 

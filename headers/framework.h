@@ -4,5 +4,8 @@
 // Fichiers d'en-tête Windows
 #include <windows.h>
 
-#include "headers/midifile.hpp"
+#include "midifile.h"
+#include "miditrack.h"
+#include "MIDIStreamFactory.h"
+#include "midistream.h"
 

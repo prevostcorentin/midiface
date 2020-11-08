@@ -15,8 +15,8 @@
 #endif
 
 #include <malloc.h>
-#include <stdio.h>
-#include <string.h>
+#include <cstdio>
+#include <cstring>
 
 MIDIStream *midiface_create_stream(const enum class StreamType type) {
     MIDIStream *stream = (MIDIStream*)malloc(sizeof(MIDIStream));

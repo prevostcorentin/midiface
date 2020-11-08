@@ -1,7 +1,7 @@
 #ifndef MIDIFACE_ERRUTILS_H
 #define MIDIFACE_ERRUTILS_H
 
-#include "types.hpp"
+#include <types.h>
 
 #define FATAL 0b1000000000000000000000000000000
 #define MIDIFILE_OK 0x01
