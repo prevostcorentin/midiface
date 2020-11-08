@@ -11,7 +11,7 @@
 #endif
 
 #include <malloc.h>
-#include <string.h>
+#include <cstring>
 
 bool _validate_mthd(char *bytes) {
     static const unsigned char mthd[] = {0x4d, 0x54, 0x68, 0x64};

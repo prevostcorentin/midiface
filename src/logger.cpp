@@ -4,10 +4,9 @@
     #include "../headers/logger.hpp"
 #endif
 
-#include <stdlib.h>
-#include <stdarg.h>
-#include <string.h>
-
+#include <cstdlib>
+#include <cstdarg>
+#include <cstring>
 #include <cstdio>
 
 #define MAX_LOG_STREAMS_COUNT 8
