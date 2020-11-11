@@ -1,8 +1,5 @@
-#include <memutils.h>
 #include <Stream.h>
 #include <Spec.h>
-#include <errutils.h>
-#include <Logger.h>
 
 #include <cstdio>
 #include <cstring>
@@ -150,3 +147,14 @@ unsigned int midiface_get_stream_tracks_count(MIDIStream *midi_stream) {
     return tracks_count;
 }
 */
+
+MIDI::Stream::~Stream()
+{
+    this->stream.release();
+}
+
+std::ios* MIDI::Stream::get_stream()
+{
+    std::ios* stream = this->stream.get();
+    return stream;
+}

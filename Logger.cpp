@@ -5,9 +5,9 @@
 #include <cstring>
 #include <cstdio>
 
+/*
 #define MAX_LOG_STREAMS_COUNT 8
 
-/*
 typedef struct LogStream {
     enum class LogLevel log_level;
     FILE *output;

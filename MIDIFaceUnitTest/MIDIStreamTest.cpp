@@ -1,7 +1,11 @@
 #include "pch.h"
+#include <Stream.h>
+#include <ImmutableStream.h>
+#include <StreamFactory.h>
 
 #include <fstream>
 #include <iostream>
+#include <filesystem>
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 namespace MIDIFaceUnitTest
@@ -33,32 +37,40 @@ namespace MIDIFaceUnitTest
 	{
 	public:
 
+        TEST_CLASS_INITIALIZE(MidiTestFileInitialization)
+        {
+            if (!std::filesystem::is_directory("./data"))
+            {
+                std::filesystem::create_directory("./data");
+            }
+            std::ofstream midi_file_stream("./data/test.midi", std::fstream::out | std::fstream::in | std::fstream::trunc);
+            midi_file_stream.write(Fixtures::TwoTracksData, 46);
+            midi_file_stream.flush();
+            midi_file_stream.close();
+        }
+
         TEST_METHOD(ImmutableStreamHeaderOk)
         {
-            std::stringstream string;
-            string << Fixtures::TwoTracksHeader;
-            std::stringbuf* buffer = string.rdbuf();
+            std::ifstream midi_stream("./data/test.midi", std::fstream::in);
 
-            MIDI::Stream *stream = MIDI::Stream::Create(buffer);
-
-            Assert::AreEqual(MIDIHEADER_LENGTH, (signed int)stream->get_size());
-            Assert::AreEqual(stream->get_length(), (unsigned int)6);
-            Assert::AreEqual(stream->get_format(), MIDI::StreamFormat::MultiTracks);
-            Assert::AreEqual(stream->get_division(), (unsigned int)96);
+            MIDI::ImmutableStream* stream = MIDI::StreamFactory::Create(midi_stream);
+            
+            Assert::AreEqual(46, (signed int)stream->get_size());
+            Assert::AreEqual(MIDI::StreamFormat::MultiTracks, stream->get_format());
+            Assert::AreEqual((unsigned int)96, stream->get_division());
         }
 
         TEST_METHOD(ImmutableStreamTracksNumber)
         {
-            std::stringstream string;
-            string << Fixtures::TwoTracksData;
-            std::stringbuf* buffer = string.rdbuf();
+            std::ifstream file_stream("data/test.midi");
 
-            MIDI::Stream* stream = MIDI::Stream::Create(buffer);
+            MIDI::ImmutableStream* stream = MIDI::StreamFactory::Create(file_stream);
 
-            std::vector<MIDI::Track> tracks = stream->get_tracks();
+            Assert::IsFalse(true, L"Asserts not implemented");
+            /*std::vector<MIDI::Track> tracks = stream->get_tracks();
 
             Assert::AreEqual(tracks[0].get_length(), (unsigned int)8);
-            Assert::AreEqual(tracks[1].get_length(), (unsigned int)8);
+            Assert::AreEqual(tracks[1].get_length(), (unsigned int)8);*/
         }
 	};
 }

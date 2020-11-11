@@ -161,14 +161,14 @@
   <ItemGroup>
     <ClInclude Include="errutils.h" />
     <ClInclude Include="Event.h" />
-    <ClInclude Include="framework.h" />
     <ClInclude Include="Header.h" />
+    <ClInclude Include="ImmutableStream.h" />
     <ClInclude Include="Logger.h" />
     <ClInclude Include="memutils.h" />
     <ClInclude Include="MIDIFace.h" />
-    <ClInclude Include="pch.h" />
     <ClInclude Include="Spec.h" />
     <ClInclude Include="Stream.h" />
+    <ClInclude Include="StreamFactory.h" />
     <ClInclude Include="Track.h" />
     <ClInclude Include="types.h" />
   </ItemGroup>
@@ -178,10 +178,11 @@
     <ClCompile Include="Event.cpp" />
     <ClCompile Include="File.cpp" />
     <ClCompile Include="Header.cpp" />
+    <ClCompile Include="ImmutableStream.cpp" />
     <ClCompile Include="Logger.cpp" />
     <ClCompile Include="memutils.cpp" />
-    <ClCompile Include="pch.cpp" />
     <ClCompile Include="Stream.cpp" />
+    <ClCompile Include="StreamFactory.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
