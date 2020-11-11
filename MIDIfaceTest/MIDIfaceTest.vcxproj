@@ -77,6 +77,10 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
+<<<<<<< Updated upstream:MIDIfaceTest/MIDIfaceTest.vcxproj
+=======
+    <IncludePath>$(SolutionDir)MIDIFace;$(IncludePath)</IncludePath>
+>>>>>>> Stashed changes:MIDIFaceUnitTest/MIDIFaceUnitTest.vcxproj
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
