@@ -83,9 +83,6 @@
     <ClCompile Include="Logger.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="memutils.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
     <ClCompile Include="Stream.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>

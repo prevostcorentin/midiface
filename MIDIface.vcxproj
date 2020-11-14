@@ -186,7 +186,6 @@
     <ClCompile Include="ListeningStream.cpp" />
     <ClCompile Include="Logger.cpp" />
     <ClCompile Include="MemoryUtils.cpp" />
-    <ClCompile Include="memutils.cpp" />
     <ClCompile Include="Stream.cpp" />
     <ClCompile Include="StreamFactory.cpp" />
   </ItemGroup>
