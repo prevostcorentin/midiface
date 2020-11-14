@@ -1,23 +1,7 @@
 #include <errutils.h>
 #include <Logger.h>
-#include <memutils.h>
 #include <Types.h>
 
-#if _MSC_VER
-#include <windows.h>
-#include <tchar.h>
-#include <stdio.h>
-#include <strsafe.h>
-#include <shlwapi.h>
-#include <pathcch.h>
-#include <corecrt_io.h>
-#include <fcntl.h>
-#pragma comment(lib, "rpcrt4.lib")
-#pragma comment(lib, "psapi.lib" )
-#pragma comment(lib, "Shlwapi.lib")
-#pragma comment(lib, "dhcpcsvc.lib")
-#pragma comment(lib, "pathcch.lib")
-#endif
 
 /*
 constexpr auto MAX_INTEGER_SIZE = 32;;

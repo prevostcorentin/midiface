@@ -5,37 +5,45 @@ MIDI::ImmutableStream::ImmutableStream(std::istream* stream_pointer)
     this->stream.reset(stream_pointer);
 }
 
-std::vector<char> MIDI::ImmutableStream::read(size_t size)
+std::vector<char> MIDI::ImmutableStream::read(const size_t size)
 {
-    std::istream* data_stream = this->stream.get();
     std::vector<char> data_read(size);
+    std::streampos pos;
     for (unsigned int i = 0; i < size; i++)
     {
-        char c = data_stream->get();
-        data_read.push_back(c);
-        data_stream->seekg(1, std::ios_base::cur);
+        data_read[i] = this->stream->get();
+        pos = this->stream->tellg();
     }
     return data_read;
 }
 
-void MIDI::ImmutableStream::rewind()
+const std::streampos MIDI::ImmutableStream::get_size()
 {
-    std::istream* data_stream = this->stream.get();
-    data_stream->seekg(0, std::ios_base::beg);
-}
-
-void MIDI::ImmutableStream::move(signed int offset)
-{
-    std::istream* data_stream = this->stream.get();
-    data_stream->seekg(offset);
-}
-
-std::streampos MIDI::ImmutableStream::get_size()
-{
-    std::istream* data_stream = this->stream.get();
-    std::streampos file_cursor_position = data_stream->tellg();
-    data_stream->seekg(0, std::ios_base::end);
-    std::streampos file_size = data_stream->tellg();
-    data_stream->seekg(file_cursor_position, std::ios_base::beg);
+    const std::streampos file_cursor_position = this->stream->tellg();
+    this->stream->seekg(0, std::ios_base::end);
+    const std::streampos file_size = this->stream->tellg();
+    this->stream->seekg(file_cursor_position, std::ios_base::beg);
     return file_size;
+}
+
+const MIDI::StreamFormat MIDI::ImmutableStream::get_format()
+{
+    const std::streampos cursor_position = this->stream->tellg();
+    this->stream->seekg(8, std::istream::beg);
+    const std::vector<char> data = this->read(2);
+    const int format = MIDI::MemoryUtils::ToInteger(data);
+    this->stream->seekg(cursor_position, std::istream::beg);
+
+    return StreamFormat(format);
+}
+
+const unsigned int MIDI::ImmutableStream::get_division()
+{
+    const std::streampos cursor_position = this->stream->tellg();
+    this->stream->seekg(12, std::istream::beg);
+    const std::vector<char> data = this->read(2);
+    const int division = MIDI::MemoryUtils::ToInteger(data);
+    this->stream->seekg(cursor_position, std::istream::beg);
+
+    return division;
 }

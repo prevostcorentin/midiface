@@ -30,33 +30,8 @@ namespace MIDI
 
         std::ios* get_stream();
         virtual std::vector<char> read(size_t size) = 0;
+        virtual const StreamFormat get_format() = 0;
     protected:
         std::unique_ptr<std::ios> stream;
-    };
-
-    class ContinuousStream : public Stream
-    {
-    public:
-        ContinuousStream(std::unique_ptr<std::istream>);
-        ~ContinuousStream();
-
-        virtual std::vector<char> read(size_t size) override;
-
-    private:
-        std::unique_ptr<std::istream> stream;
-    };
-
-    class ListeningStream : public Stream
-    {
-    public:
-        ListeningStream(std::istream*);
-        ~ListeningStream();
-
-        virtual std::vector<char> read(size_t size) override;
-
-    private:
-        std::unique_ptr<std::istream> stream;
-
-        // Hérité via Stream
     };
 }
