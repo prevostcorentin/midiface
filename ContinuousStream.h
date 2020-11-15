@@ -16,8 +16,7 @@ namespace MIDI
         ~ContinuousStream();
 
         std::vector<char> read(size_t size) override;
-        const StreamFormat get_format() override;
     private:
-        std::unique_ptr<std::istream> stream;
+        std::unique_ptr<std::istream> _stream;
     };
 }

@@ -14,12 +14,11 @@ namespace MIDI
     public:
         ImmutableStream(std::istream*);
 
-        std::vector<char> read(const size_t size);
-        const std::streampos get_size();
-        const StreamFormat get_format() override;
-        const unsigned int get_division();
-        std::vector<Track> get_tracks();
+        std::vector<char> read(const size_t size) override;
+        const size_t get_size();
+        Header* get_header();
     private:
-        std::unique_ptr<std::istream> stream;
+        std::unique_ptr<std::istream> _stream;
+        MIDI::Header _header;
     };
 }

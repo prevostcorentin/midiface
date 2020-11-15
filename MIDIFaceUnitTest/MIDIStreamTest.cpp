@@ -12,25 +12,19 @@ namespace MIDIFaceUnitTest
 {
     namespace Fixtures
     {
-        char TwoTracksHeader[] = { 'M', 'T', 'h', 'd', // 1: MIDI file header
-                                   0x00, 0x00, 0x00, 0x06, // 4: Length = 6
-                                   0x00, 0x01, // 8: Multi-track file
-                                   0x00, 0x02, // 12: 2 tracks
-                                   0x00, 96 };  // 14: division 96
-
         char TwoTracksData[] = { 'M', 'T', 'h', 'd', // 1: MIDI file header
                                 0x00, 0x00, 0x00, 0x06, // 4: Length = 6
                                 0x00, 0x01, // 8: Multi-track file
-                                0x00, 0x02, // 12: 2 tracks
-                                0x00, 96, // 14: 96 time per quarter note
-                                'M', 'T', 'r', 'k', // 18: First track
-                                0x00, 0x00, 0x00, 0x08, // 22: 8 bytes long
-                                0x00, 0x00, 0x00, 0x00, // 26: Delta-time to 0
-                                0x00, 0x00, 0x00, 0x00, // 30: Playing C0
-                                'M', 'T', 'r', 'k', // 34: Second track
-                                0x00, 0x00, 0x00, 0x08, // 38: 8 bytes long
-                                0x00, 0x00, 0x00, 0x00, // 42: Delta-time to 0
-                                0x00, 0x00, 0x00, 0x00 }; // 46: Playing C0
+                                0x00, 0x02, // 10: 2 tracks
+                                0x00, 96, // 12: 96 time per quarter note
+                                'M', 'T', 'r', 'k', // 14: First track
+                                0x00, 0x00, 0x00, 0x08, // 18: 8 bytes long
+                                0x00, 0x00, 0x00, 0x00, // 22: Delta-time to 0
+                                0x00, 0x00, 0x00, 0x00, // 26: Playing C0
+                                'M', 'T', 'r', 'k', // 30: Second track
+                                0x00, 0x00, 0x00, 0x08, // 34: 8 bytes long
+                                0x00, 0x00, 0x00, 0x00, // 38: Delta-time to 0
+                                0x00, 0x00, 0x00, 0x00 }; // 42: Playing C0
     }
 
 	TEST_CLASS(MIDIStreamTest)
@@ -54,23 +48,12 @@ namespace MIDIFaceUnitTest
             std::ifstream midi_stream("./data/test.midi", std::fstream::in);
 
             MIDI::ImmutableStream* stream = MIDI::StreamFactory::Create(midi_stream);
-            
+            MIDI::Header* header = stream->get_header();
+
             Assert::AreEqual(46, (signed int)stream->get_size());
-            Assert::AreEqual(MIDI::StreamFormat::MultiTracks, stream->get_format());
-            Assert::AreEqual((unsigned int)96, stream->get_division());
-        }
-
-        TEST_METHOD(ImmutableStreamTracksNumber)
-        {
-            std::ifstream file_stream("data/test.midi");
-
-            MIDI::ImmutableStream* stream = MIDI::StreamFactory::Create(file_stream);
-
-            Assert::IsFalse(true, L"Asserts not implemented");
-            /*std::vector<MIDI::Track> tracks = stream->get_tracks();
-
-            Assert::AreEqual(tracks[0].get_length(), (unsigned int)8);
-            Assert::AreEqual(tracks[1].get_length(), (unsigned int)8);*/
+            Assert::AreEqual(MIDI::StreamFormat::MultiTracks, header->get_format());
+            Assert::AreEqual((unsigned int)96, header->get_division());
+            Assert::AreEqual((unsigned int)2, header->get_tracks_count());
         }
 	};
 }

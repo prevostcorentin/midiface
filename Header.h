@@ -1,20 +1,24 @@
-#ifndef MIDIFACE_MIDIHEADER_H
-#define MIDIFACE_MIDIHEADER_H
+#pragma once
 
-#define MIDIHEADER_LENGTH 14
+#include <istream>
 
-#include <cstdio>
+#include <StreamFormat.h>
+
 
 namespace MIDI
 {
-    typedef struct {
-        unsigned int format;
-        unsigned int length;
-        unsigned int ntracks;
-        unsigned int division;
-    } Header;
-
-    Header* midiface_read_header(FILE*);
+    class Header
+    {
+    public:
+        Header(std::istream&);
+        const StreamFormat get_format();
+        const unsigned int get_length();
+        const unsigned int get_tracks_count();
+        const unsigned int get_division();
+    private:
+        unsigned int _format;
+        unsigned int _length;
+        unsigned int _tracks_count;
+        unsigned int _division;
+    };
 }
-
-#endif //MIDIFACE_MIDIHEADER_H

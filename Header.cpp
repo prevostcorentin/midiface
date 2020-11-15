@@ -1,29 +1,37 @@
-#include <errutils.h>
+#include <istream>
+#include <vector>
+
+#include <MemoryUtils.h>
 #include <Header.h>
-#include <Types.h>
+#include <Stream.h>
 
-#include <malloc.h>
-#include <cstring>
-
-/*
-bool _validate_mthd(char *bytes) {
-    static const unsigned char mthd[] = {0x4d, 0x54, 0x68, 0x64};
-    return memcmp(bytes, mthd, sizeof mthd) == 0;
+MIDI::Header::Header(std::istream& stream)
+{
+    const std::streampos cursor_position = stream.tellg();
+    stream.seekg(4, std::istream::beg);
+    this->_length = MIDI::MemoryUtils::ReadToUnsignedInteger(stream, 4);
+    this->_format = MIDI::MemoryUtils::ReadToUnsignedInteger(stream, 2);
+    this->_tracks_count = MIDI::MemoryUtils::ReadToUnsignedInteger(stream, 2);
+    this->_division = MIDI::MemoryUtils::ReadToUnsignedInteger(stream, 2);
+    stream.seekg(cursor_position, std::istream::beg);
 }
 
-MIDIHeader *midiface_read_header(FILE *file_descriptor) {
-    secure_fseek(file_descriptor, 0, SEEK_SET);
-    char mthd[4];
-    read_chunk(file_descriptor, mthd);
-    if (!_validate_mthd(mthd)) {
-        midiface_throw_error(WRONG_MTHD);
-    }
-    MIDIHeader *header = (MIDIHeader*)malloc(sizeof(MIDIHeader));
-    header->length = read_unsigned_integer(file_descriptor, 4);
-    header->format = read_unsigned_integer(file_descriptor, 2);
-    header->ntracks = read_unsigned_integer(file_descriptor, 2);
-    header->division = read_unsigned_integer(file_descriptor, 2);
-    return header;
+const MIDI::StreamFormat MIDI::Header::get_format()
+{
+    return MIDI::StreamFormat(this->_format);
 }
-*/
 
+const unsigned int MIDI::Header::get_length()
+{
+    return this->_length;
+}
+
+const unsigned int MIDI::Header::get_tracks_count()
+{
+    return this->_tracks_count;
+}
+
+const unsigned int MIDI::Header::get_division()
+{
+    return this->_division;
+}

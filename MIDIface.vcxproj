@@ -172,6 +172,7 @@
     <ClInclude Include="Spec.h" />
     <ClInclude Include="Stream.h" />
     <ClInclude Include="StreamFactory.h" />
+    <ClInclude Include="StreamFormat.h" />
     <ClInclude Include="Track.h" />
     <ClInclude Include="types.h" />
   </ItemGroup>
