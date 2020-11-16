@@ -13,75 +13,96 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Fichiers d%27en-tête\Source">
-      <UniqueIdentifier>{fe0e0b10-8c57-4af5-bb0f-9563bf1f0a3f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Fichiers sources\Source">
-      <UniqueIdentifier>{f5a6f526-624a-432d-a0be-0c3155f72efb}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="pch.h">
+    <Text Include="CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="errutils.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="headers\errutils.hpp">
-      <Filter>Fichiers d%27en-tête\Source</Filter>
+    <ClInclude Include="Event.h">
+      <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
     <ClInclude Include="framework.h">
-      <Filter>Fichiers d%27en-tête\Source</Filter>
+      <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="headers\logger.hpp">
-      <Filter>Fichiers d%27en-tête\Source</Filter>
+    <ClInclude Include="Header.h">
+      <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="headers\memutils.hpp">
-      <Filter>Fichiers d%27en-tête\Source</Filter>
+    <ClInclude Include="Logger.h">
+      <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="headers\midiface.hpp">
-      <Filter>Fichiers d%27en-tête\Source</Filter>
+    <ClInclude Include="MIDIFace.h">
+      <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="headers\midifile.hpp">
-      <Filter>Fichiers d%27en-tête\Source</Filter>
+    <ClInclude Include="Spec.h">
+      <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="headers\midiheader.hpp">
-      <Filter>Fichiers d%27en-tête\Source</Filter>
+    <ClInclude Include="Stream.h">
+      <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="headers\midispec.hpp">
-      <Filter>Fichiers d%27en-tête\Source</Filter>
+    <ClInclude Include="Track.h">
+      <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="headers\midistream.hpp">
-      <Filter>Fichiers d%27en-tête\Source</Filter>
+    <ClInclude Include="types.h">
+      <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="headers\miditrack.hpp">
-      <Filter>Fichiers d%27en-tête\Source</Filter>
+    <ClInclude Include="StreamFactory.h">
+      <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="headers\types.hpp">
-      <Filter>Fichiers d%27en-tête\Source</Filter>
+    <ClInclude Include="ContinuousStream.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="ListeningStream.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="ImmutableStream.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="MemoryUtils.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="StreamFormat.h">
+      <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="pch.cpp">
+    <ClCompile Include="errutils.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="sources\midistream.cpp">
-      <Filter>Fichiers sources\Source</Filter>
+    <ClCompile Include="Event.cpp">
+      <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="sources\errutils.cpp">
-      <Filter>Fichiers sources\Source</Filter>
+    <ClCompile Include="File.cpp">
+      <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="sources\logger.cpp">
-      <Filter>Fichiers sources\Source</Filter>
+    <ClCompile Include="Header.cpp">
+      <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="sources\memutils.cpp">
-      <Filter>Fichiers sources\Source</Filter>
+    <ClCompile Include="Logger.cpp">
+      <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="sources\midifile.cpp">
-      <Filter>Fichiers sources\Source</Filter>
+    <ClCompile Include="Stream.cpp">
+      <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="sources\midiheader.cpp">
-      <Filter>Fichiers sources\Source</Filter>
+    <ClCompile Include="StreamFactory.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="ListeningStream.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="ContinuousStream.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="ImmutableStream.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="MemoryUtils.cpp">
+      <Filter>Fichiers sources</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
